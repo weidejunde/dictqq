@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="c2-SbOaronHgBSXoh_caAr-Te6AT1DL9nuPK87-2TzU" />
+  <!-- Thêm link sitemap -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+  <title>Tra từ điển (Cloudflare Functions)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { padding: 8px; font-size: 1em; }
+    #result { margin-top: 20px; }
+    .nav { margin-bottom: 24px; }
+    .nav a {
+      text-decoration: none;
+      color: #2266cc;
+      margin-right: 16px;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .nav a:hover {
+      color: #184a99;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Trang chủ</a>
+    <a href="/gioi-thieu.html">Giới thiệu</a>
+  </div>
+  <h1>Tra từ điển đơn giản (CF Functions)</h1>
+  <input id="word" placeholder="Nhập từ tiếng Anh..." autofocus>
+  <button onclick="lookup()">Tra nghĩa</button>
+  <div id="result"></div>
+  <script>
+    async function lookup() {
+      const word = document.getElementById('word').value.trim();
+      if (!word) {
+        document.getElementById('result').textContent = 'Vui lòng nhập từ!';
+        return;
+      }
+      document.getElementById('result').textContent = 'Đang tra...';
+      try {
+        const res = await fetch('/lookup?q=' + encodeURIComponent(word));
+        const data = await res.json();
+        document.getElementById('result').textContent = `Nghĩa: ${data.meaning}`;
+      } catch (e) {
+        document.getElementById('result').textContent = 'Có lỗi xảy ra!';
+      }
+    }
+    document.getElementById('word').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') lookup();
+    });
+  </script>
+</body>
+</html>
