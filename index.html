@@ -1,56 +1,129 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="google-site-verification" content="c2-SbOaronHgBSXoh_caAr-Te6AT1DL9nuPK87-2TzU" />
-  <!-- Thêm link sitemap -->
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-  <title>Tra từ điển (Cloudflare Functions)</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    input, button { padding: 8px; font-size: 1em; }
-    #result { margin-top: 20px; }
-    .nav { margin-bottom: 24px; }
-    .nav a {
-      text-decoration: none;
-      color: #2266cc;
-      margin-right: 16px;
-      font-weight: bold;
-      transition: color 0.2s;
-    }
-    .nav a:hover {
-      color: #184a99;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Từ điển Anh-Việt | Tra cứu từ vựng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            line-height: 1.6;
+        }
+        .nav {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #2266cc;
+            margin: 0 16px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2266cc;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: #2266cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #184a99;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
-  <div class="nav">
-    <a href="/">Trang chủ</a>
-    <a href="/gioi-thieu.html">Giới thiệu</a>
-  </div>
-  <h1>Tra từ điển đơn giản (CF Functions)</h1>
-  <input id="word" placeholder="Nhập từ tiếng Anh..." autofocus>
-  <button onclick="lookup()">Tra nghĩa</button>
-  <div id="result"></div>
-  <script>
-    async function lookup() {
-      const word = document.getElementById('word').value.trim();
-      if (!word) {
-        document.getElementById('result').textContent = 'Vui lòng nhập từ!';
-        return;
-      }
-      document.getElementById('result').textContent = 'Đang tra...';
-      try {
-        const res = await fetch('/lookup?q=' + encodeURIComponent(word));
-        const data = await res.json();
-        document.getElementById('result').textContent = `Nghĩa: ${data.meaning}`;
-      } catch (e) {
-        document.getElementById('result').textContent = 'Có lỗi xảy ra!';
-      }
-    }
-    document.getElementById('word').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') lookup();
-    });
-  </script>
+    <div class="nav">
+        <a href="/">Trang chủ</a>
+        <a href="/about.html">Giới thiệu</a>
+    </div>
+    <div class="container">
+        <h1>Từ điển Anh-Việt</h1>
+        <div class="search-box">
+            <input type="text" id="word" placeholder="Nhập từ tiếng Anh..." autofocus>
+            <button onclick="lookup()">Tra từ</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Dữ liệu từ điển
+        const dictionary = {
+            "hello": "xin chào",
+            "world": "thế giới",
+            "computer": "máy tính",
+            "book": "sách",
+            "student": "học sinh, sinh viên",
+            "teacher": "giáo viên",
+            "school": "trường học",
+            "cat": "mèo",
+            "dog": "chó",
+            "bird": "chim",
+            "flower": "hoa",
+            "tree": "cây",
+            "car": "xe hơi",
+            "phone": "điện thoại",
+            "house": "nhà",
+            "food": "thức ăn",
+            "water": "nước",
+            "friend": "bạn bè",
+            "family": "gia đình",
+            "love": "tình yêu",
+        };
+
+        function lookup() {
+            const word = document.getElementById('word').value.trim().toLowerCase();
+            if (!word) {
+                document.getElementById('result').textContent = 'Vui lòng nhập từ cần tra!';
+                return;
+            }
+            
+            const meaning = dictionary[word];
+            if (meaning) {
+                document.getElementById('result').textContent = `Nghĩa: ${meaning}`;
+            } else {
+                document.getElementById('result').textContent = 'Không tìm thấy từ này trong từ điển!';
+            }
+        }
+
+        document.getElementById('word').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') lookup();
+        });
+    </script>
 </body>
 </html>
