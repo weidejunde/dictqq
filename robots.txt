@@ -3,4 +3,4 @@ Allow: /
 Allow: /about.html
 
 # Sitemap
-Sitemap: https://dictqq.pages.dev/sitemap.xml
+Sitemap: https://dictqq.netlify.app/sitemap.xml
